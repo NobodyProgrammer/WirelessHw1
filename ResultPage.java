@@ -59,10 +59,10 @@ public class ResultPage extends JFrame{
                     this.table2[i*25+j].setText("BP_"+Integer.toString(j));
                     
                 }
-                this.table[i*25+j].setSize(50,20);
-                this.table2[i*25+j].setSize(50,20);
-                this.table[i*25+j].setLocation(50+50*j,100+20*i);
-                this.table2[i*25+j].setLocation(50+50*j,500+20*i);
+                this.table[i*25+j].setSize(70,20);
+                this.table2[i*25+j].setSize(70,20);
+                this.table[i*25+j].setLocation(70*j,100+20*i);
+                this.table2[i*25+j].setLocation(70*j,500+20*i);
                 this.add(this.table[i*25+j]);
                 this.add(this.table2[i*25+j]);
 
@@ -90,11 +90,11 @@ public class ResultPage extends JFrame{
                 }
             }
             else if(i%3==2){
-                for(int j=1;j<25;++j){
+                for(int j=0;j<24;++j){
                     if(queue_flag==0)
-                        this.table[i*25+j].setText(Double.toString(block[i/3+j-1]));
+                        this.table[i*25+j+1].setText(Double.toString(block[i/3*24+j]));
                     else
-                        this.table2[i*25+j].setText(Double.toString(block[i/3+j-1]));
+                        this.table2[i*25+j+1].setText(Double.toString(block[i/3*24+j]));
                 }
             }
         }
