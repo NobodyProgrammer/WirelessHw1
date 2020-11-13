@@ -1,7 +1,8 @@
 public class BesePolicy extends Policy {
     // handoff if there is a more powerful station
     public boolean Algorithm(Car car) {
-        car.setPower();
+
+        car.setPower();// update new power when move car
         int now_idx = car.getNowStation();
         double[] power = car.getAllStationPower();
         double max_p = power[0];

@@ -7,8 +7,8 @@ public class Threshold extends Policy {
         } else {
             // System.out.println("i am die");
             double[] power = car.getAllStationPower();
-            double max_p = power[0];
-            int max_idx = 0;
+            double now_p = power[0];
+            int now_idx = 0;
 
             // here check there whether there is no station alive
             boolean isAllMinimum = true;
@@ -22,14 +22,14 @@ public class Threshold extends Policy {
                 return false;
 
             for (int i = 0; i < 4; ++i) {
-                if (power[i] > max_p) {
-                    power[i] = max_p;
-                    max_idx = i;
+                if (power[i] > now_p) {
+                    power[i] = now_p;
+                    now_idx = i;
                 }
             }
             // the power is die!
             // change power station
-            car.setNowStation(max_idx);
+            car.setNowStation(now_idx);
 
             return true;
         }

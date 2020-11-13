@@ -3,16 +3,15 @@ public class Car {
     private double loc_y;
     private double stationPower[] = new double[4];
     private int stationIdx;// now station car listening to
-    int station_loc[][] = { { 330, 350 }, { 360, 680 }, { 640, 310 }, { 660, 658 } };
+    private int station_loc[][] = { { 330, 350 }, { 360, 680 }, { 640, 310 }, { 660, 658 } };
+    private int dwell_time;
 
     public Car(double init_x, double init_y) {
         this.loc_x = init_x;
         this.loc_y = init_y;
         setPower();
         initStationIdx();
-        for (int i = 0; i < 4; ++i) {
-            // System.out.println("Station " + i + "=" + stationPower[i]);
-        }
+        dwell_time = 10;
 
     }
 
@@ -28,10 +27,20 @@ public class Car {
 
     public void setPower() {
         for (int i = 0; i < 4; ++i) {
+            double p_loss;
             double distance = (double) Math
                     .sqrt(Math.pow(station_loc[i][0] - loc_x, 2) + Math.pow(station_loc[i][1] - loc_y, 2));
-            double p_loss = 32.45 + 20 * Math.log10(distance);
+
+            // System.out.println(loc_x + " " + loc_y);
+            if (distance <= 0)// car location is at the basic station
+                p_loss = 32.45;
+            else
+                p_loss = 32.45 + 20 * Math.log10(distance);
+
             stationPower[i] = 100 - p_loss;
+            if (stationPower[i] > 100)
+                System.out.println(stationPower[i]);
+
         }
     }
 

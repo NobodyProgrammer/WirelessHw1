@@ -11,10 +11,11 @@ public class Running {
     private int totalCar = 0;
     private ArrayList<Car> myCars = new ArrayList<Car>();
 
-    private void powerAvg(int now_time) {
+    private void powerAvg(int now_time, int idx) {
         if (now_time % 1000 == 0) {
             totalCar += myCars.size();
             for (int i = 0; i < myCars.size(); ++i) {
+
                 totalPower += myCars.get(i).getNowStationPower();
 
             }
@@ -22,13 +23,13 @@ public class Running {
     }
 
     public Running(Policy policy, int policy_idx) {
-        System.out.println("init handoff=" + handoff);
+        // System.out.println("init handoff=" + handoff);
         // Policy all_policy[] = new Policy[3];
 
         for (int i = 0; i < 3; ++i) {
             while (now_time <= 86400000 || myCars.size() != 0) {
                 // count the power every second
-                powerAvg(now_time);
+                powerAvg(now_time, policy_idx);
                 // if (policy_idx == 1)
                 // System.out.println("car size=" + myCars.size());
                 // car move
@@ -87,8 +88,12 @@ public class Running {
             // change next lamda
 
             double p_avg = totalPower / totalCar;
+            System.out.println("lamda=" + (double) 1 / car_time[i]);
             System.out.println("handoff=" + handoff);
-            System.out.println("average power=" + p_avg);
+            // System.out.println("total car=" + totalCar);
+            // System.out.println("total power=" + totalPower);
+            System.out.println("average power=" + p_avg + "\n");
+
             handoff = 0;
             totalCar = 0;
             totalPower = 0;
