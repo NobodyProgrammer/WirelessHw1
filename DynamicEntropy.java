@@ -1,15 +1,14 @@
-
-public class Entropy extends Policy {
-    private int myEntropy = 9;
+public class DynamicEntropy extends Policy {
+    private double myEntropy = 9.0;
 
     public String getName() {
-        return "Entropy";
+        return "DynamicEntropy";
     }
 
     public boolean Algorithm(Car car) {
+
         car.setPower();
         int now_idx = car.getNowStation();
-        int new_idx = now_idx;
         int max_idx = now_idx;
         double[] allPower = car.getAllStationPower();
         double now_p = car.getNowStationPower();
@@ -23,17 +22,23 @@ public class Entropy extends Policy {
 
         }
         if (max_p > now_p + myEntropy) {
-            new_idx = max_idx;
-        }
-        // no change
-        if (now_idx == new_idx)
-            return false;
-        else {
-            car.setNowStation(new_idx);
+            car.setNowStation(max_idx);
             return true;
-        }
+        } else
+            return false;
     }
 
+    // dynamic adjust the entropy base on the handoff
     public void adjustEntropy(int handoff) {
+
+        double rate = ((double) handoff / 9);
+        // System.out.println(rate);
+        if (rate > 0 && rate < 1)
+            this.myEntropy = rate * 9 + 9;
+        else if (rate > 1)
+            rate = 18;
+        else
+            this.myEntropy = 9;
+        // System.out.println(handoff + " " + this.myEntropy);
     }
 }

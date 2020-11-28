@@ -1,17 +1,17 @@
 public class Car {
     private double loc_x;
     private double loc_y;
+    private int direction;
     private double stationPower[] = new double[4];
     private int stationIdx;// now station car listening to
     private int station_loc[][] = { { 330, 350 }, { 360, 680 }, { 640, 310 }, { 660, 658 } };
-    private int dwell_time;
 
-    public Car(double init_x, double init_y) {
+    public Car(double init_x, double init_y, int dir) {
         this.loc_x = init_x;
         this.loc_y = init_y;
+        this.direction = dir;
         setPower();
         initStationIdx();
-        dwell_time = 10;
 
     }
 
@@ -44,17 +44,63 @@ public class Car {
         }
     }
 
-    public void updateLocation(double x, double y) {
-        this.loc_x = x;
-        this.loc_y = y;
+    public void turnRight(int turn, int distance) {
+        switch (this.direction) {
+            case 0:
+                this.loc_y -= distance;
+                break;
+            case 1:
+                this.loc_x += distance;
+                break;
+            case 2:
+                this.loc_y += distance;
+                break;
+            case 3:
+                this.loc_x -= distance;
+                break;
+        }
     }
 
-    public double getLocY() {
-        return this.loc_y;
+    public void turnLeft(int turn, int distance) {
+        switch (this.direction) {
+            case 0:
+                this.loc_y += distance;
+                break;
+            case 1:
+                this.loc_x -= distance;
+                break;
+            case 2:
+                this.loc_y += distance;
+                break;
+            case 3:
+                this.loc_x -= distance;
+                break;
+        }
     }
 
-    public double getLocX() {
+    public void goStraight(int turn, int distance) {
+        switch (this.direction) {
+            case 0:
+                this.loc_x += distance;
+                break;
+            case 1:
+                this.loc_y += distance;
+                break;
+            case 2:
+                this.loc_x -= distance;
+                break;
+            case 3:
+                this.loc_y -= distance;
+                break;
+        }
+    }
+
+    public double getX() {
         return this.loc_x;
+    }
+
+    public double getY() {
+        return this.loc_y;
     }
 
     public int getNowStation() {

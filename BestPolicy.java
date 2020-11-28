@@ -1,11 +1,16 @@
-public class BesePolicy extends Policy {
+public class BestPolicy extends Policy {
     // handoff if there is a more powerful station
+    public String getName() {
+        return "BestPolicy";
+    }
+
     public boolean Algorithm(Car car) {
 
         car.setPower();// update new power when move car
         int now_idx = car.getNowStation();
         double[] power = car.getAllStationPower();
-        double max_p = power[0];
+        double max_p = car.getNowStationPower();
+
         int max_idx = now_idx;
 
         boolean isAllMinimum = true;
@@ -15,8 +20,9 @@ public class BesePolicy extends Policy {
 
         }
         // all die no change, just wait the car remove from board
-        if (isAllMinimum)
+        if (isAllMinimum) {
             return false;
+        }
 
         for (int i = 0; i < 4; ++i) {
             if (power[i] > max_p) {
@@ -34,5 +40,8 @@ public class BesePolicy extends Policy {
             return false;
         }
 
+    }
+
+    public void adjustEntropy(int handoff) {
     }
 }

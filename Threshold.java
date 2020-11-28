@@ -1,38 +1,47 @@
 public class Threshold extends Policy {
+    private double threshold = 0;
+
+    public Threshold(double t) {
+        this.threshold = t;
+    }
+
+    public String getName() {
+        if (this.threshold <= 10)
+            return "Pmin";
+        else
+            return "Threshold";
+    }
+
     public boolean Algorithm(Car car) {
         car.setPower();
-        if (car.getNowStationPower() > 10) {
+        double[] power = car.getAllStationPower();
+        double now_p = car.getNowStationPower();
+        int now_idx = car.getNowStation();
+        int new_idx = now_idx;
+        if (now_p > threshold) {
             // System.out.println("I am not die!");
             return false;
         } else {
             // System.out.println("i am die");
-            double[] power = car.getAllStationPower();
-            double now_p = power[0];
-            int now_idx = 0;
-
-            // here check there whether there is no station alive
-            boolean isAllMinimum = true;
-            for (int i = 0; i < 4; ++i) {
-                if (power[i] > 10)
-                    isAllMinimum = false;
-
-            }
-            // all die no change, just wait the car remove from board
-            if (isAllMinimum)
-                return false;
 
             for (int i = 0; i < 4; ++i) {
                 if (power[i] > now_p) {
-                    power[i] = now_p;
-                    now_idx = i;
+                    now_p = power[i];
+                    new_idx = i;
                 }
             }
             // the power is die!
             // change power station
-            car.setNowStation(now_idx);
-
-            return true;
+            if (new_idx != now_idx) {
+                car.setNowStation(new_idx);
+                return true;
+            } else {
+                return false;
+            }
         }
 
+    }
+
+    public void adjustEntropy(int handoff) {
     }
 }
